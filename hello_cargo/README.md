@@ -1,6 +1,6 @@
 # Hello from Cargo!
 
-This is a "Hello, World!" program written in Rust with Cargo. The purpose is to learn Cargo as system and package manager. I learn to compile/build and check with Cargo. [Source](https://doc.rust-lang.org/book/ch01-03-hello-cargo.html)
+This is a "Hello, World!" program written in Rust with Cargo. The purpose is to learn Cargo as system and package manager. I learn to create new project (`cargo new project_dir` or `cargo_init` inside `project_dir`), also compile/build and check with Cargo. [Source](https://doc.rust-lang.org/book/ch01-03-hello-cargo.html)
 
 ## Requirements
 
