@@ -5,4 +5,4 @@ I also learn about common programming concepts.
 
 ## Questions
 
-- How to use variable as index to access array value?
+- How to use variable as index to access array value? Answer: I use ChatGPT eventually, check the code for the answer.

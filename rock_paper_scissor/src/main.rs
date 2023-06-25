@@ -1,80 +1,68 @@
 use std::io;
 use rand::Rng;
 
+const OPTIONS: [&str; 3] = ["Rock", "Paper", "Scissors"];
+
 fn main() {
     println!("=== Rock - Paper - Scissor ===");
 
-    // @TODO Optimize OPTIONS handling
-    const OPTIONS: [&str; 3] = ["Rock", "Paper", "Scissor"];
+    let npc_choice: usize = rand::thread_rng().gen_range(0..OPTIONS.len());
 
-    let rock = OPTIONS[0];
-    let paper = OPTIONS[1];
-    let scissor = OPTIONS[2];
+    println!("Enter your choice:");
+    print_options(&OPTIONS);
 
-    let npc_choice: u32 = rand::thread_rng().gen_range(0..=2);
+    let mut player_choice = String::new();
 
     loop {
-        println!("Enter your choice:");
-        println!("1. {rock}");
-        println!("2. {paper}");
-        println!("3. {scissor}");
-
-        let mut choice = String::new();
-
         io::stdin()
-            .read_line(&mut choice)
+            .read_line(&mut player_choice)
             .expect("Failed to read line");
 
-        let choice: u32 = match choice.trim().parse() {
+        let player_choice: usize = match player_choice.trim().parse() {
             Ok(num) => num,
             Err(_) => continue,
         };
 
-        let c_index = choice - 1; // convert user choice from menu id to array index
-
-        println!("You: {}", get_choice(c_index));
-        println!("NPC: {}", if npc_choice == 0 { "Rock" } else if npc_choice == 1 { "Paper" } else { "Scissor" });
-
-        let result: u32 = is_win(c_index, npc_choice);
-
-        if result == 2 {
-            println!("DRAW!");
-        } else if result == 1 {
-            println!("YOU WIN!");
-        } else {
-            println!("YOU LOSE!");
+        if player_choice < 1 || player_choice > OPTIONS.len() as usize {
+            println!("Invalid choice. Please try again.");
+            continue;
         }
+
+        // convert player's choice from menu id to array index
+        let player_choice: usize = player_choice - 1;
+        let result: u32 = is_win(player_choice, npc_choice);
+        let player_choice: &str = OPTIONS[player_choice];
+        let npc_choice: &str = OPTIONS[npc_choice];
+
+        print_result(player_choice, npc_choice, result);
 
         break;
     }
 }
 
-fn get_choice(choice: u32) -> &'static str {
-    if choice == 0 {
-        "Rock"
-    } else if choice == 1 {
-        "Paper"
-    } else if choice == 2 {
-        "Scissor"
-    } else {
-        "Unknown"
+fn print_options(options: &[&str]) {
+    for (index, &option) in options.iter().enumerate() {
+        println!("{a}. {b}", a = index + 1, b = option);
     }
 }
 
-fn is_win(player: u32, npc: u32) -> u32 {
-    if player == 0 && npc == 1 {
-        0
-    } else if player == 0 && npc == 2 {
-        1
-    } else if player == 1 && npc == 0 {
-        1
-    } else if player == 1 && npc == 2 {
-        0
-    } else if player == 2 && npc == 0 {
-        0
-    } else if player == 2 && npc == 1 {
-        1
+fn is_win(player: usize, npc: usize) -> u32 {
+    match (player, npc) {
+        (0, 1) | (1, 2) | (2, 0) => 0,
+        (0, 2) | (1, 0) | (2, 1) => 1,
+        _ => 2,
+    }
+}
+
+fn print_result(player_choice: &str, npc_choice: &str, result: u32) {
+    println!("You: {}", player_choice);
+    println!("NPC: {}", npc_choice);
+
+    if result == 2 {
+        println!("DRAW!");
+    } else if result == 1 {
+        println!("YOU WIN!");
     } else {
-        2
+        println!("YOU LOSE!");
     }
 }
