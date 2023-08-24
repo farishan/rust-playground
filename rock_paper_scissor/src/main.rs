@@ -30,6 +30,7 @@ fn main() {
 
         // convert player's choice from menu id to array index
         let player_choice: usize = player_choice - 1;
+
         let result: u32 = is_win(player_choice, npc_choice);
         let player_choice: &str = OPTIONS[player_choice];
         let npc_choice: &str = OPTIONS[npc_choice];
