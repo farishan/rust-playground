@@ -1,0 +1,4 @@
+/* Enable/disable annoying Rust inlay types hint */
+// {
+//   "editor.inlayHints.enabled": "offUnlessPressed"
+// }
